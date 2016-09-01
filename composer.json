@@ -1,0 +1,22 @@
+{
+    "name": "aplia/support",
+    "description": "Support library for PHP adding missing features",
+    "homepage": "https://bitbucket.org/aplia/support",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aplia dev-team",
+            "homepage": "https://bitbucket.org/aplia"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "composer/composer": ">=1.0",
+        "ext-mbstring": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Aplia\\": "Aplia"
+        }
+    }
+}
