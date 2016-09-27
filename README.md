@@ -8,7 +8,8 @@ manipulation.
 All classes are placed under the namespace `Aplia\Support`, using them
 simply requires using this namespace.
 
-```php
+```
+<?php
 use Aplia\Support;
 
 Arr::get($array, 'key');
