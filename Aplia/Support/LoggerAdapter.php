@@ -6,6 +6,11 @@ use Psr\Log\LogLevel;
 
 class LoggerAdapter implements LoggerInterface
 {
+    public function __construct()
+    {
+        $this->isEnabled = class_exists('eZDebug');
+    }
+
     public static function interpolate($message, array $context = array())
     {
         if (strpos($message, '{') === false) {
@@ -29,6 +34,9 @@ class LoggerAdapter implements LoggerInterface
      */
     public function emergency($message, array $context = array())
     {
+        if (!$this->isEnabled) {
+            return;
+        }
         \eZDebug::writeError(self::interpolate($message, $context));
     }
 
@@ -38,6 +46,9 @@ class LoggerAdapter implements LoggerInterface
      */
     public function alert($message, array $context = array())
     {
+        if (!$this->isEnabled) {
+            return;
+        }
         \eZDebug::writeError(self::interpolate($message, $context));
     }
 
@@ -47,6 +58,9 @@ class LoggerAdapter implements LoggerInterface
      */
     public function critical($message, array $context = array())
     {
+        if (!$this->isEnabled) {
+            return;
+        }
         \eZDebug::writeError(self::interpolate($message, $context));
     }
 
@@ -56,6 +70,9 @@ class LoggerAdapter implements LoggerInterface
      */
     public function error($message, array $context = array())
     {
+        if (!$this->isEnabled) {
+            return;
+        }
         \eZDebug::writeError(self::interpolate($message, $context));
     }
 
@@ -65,6 +82,9 @@ class LoggerAdapter implements LoggerInterface
      */
     public function warning($message, array $context = array())
     {
+        if (!$this->isEnabled) {
+            return;
+        }
         \eZDebug::writeWarning(self::interpolate($message, $context));
     }
 
@@ -73,6 +93,9 @@ class LoggerAdapter implements LoggerInterface
      */
     public function notice($message, array $context = array())
     {
+        if (!$this->isEnabled) {
+            return;
+        }
         \eZDebug::writeNotice(self::interpolate($message, $context));
     }
 
@@ -81,6 +104,9 @@ class LoggerAdapter implements LoggerInterface
      */
     public function info($message, array $context = array())
     {
+        if (!$this->isEnabled) {
+            return;
+        }
         \eZDebug::writeNotice(self::interpolate($message, $context));
     }
 
@@ -89,6 +115,9 @@ class LoggerAdapter implements LoggerInterface
      */
     public function debug($message, array $context = array())
     {
+        if (!$this->isEnabled) {
+            return;
+        }
         \eZDebug::writeDebug(self::interpolate($message, $context));
     }
 
@@ -97,6 +126,9 @@ class LoggerAdapter implements LoggerInterface
      */
     public function log($level, $message, array $context = array())
     {
+        if (!$this->isEnabled) {
+            return;
+        }
         if ($level == LogLevel::EMERGENCY) {
             $this->emergency($message, $context);
         } elseif ($level == LogLevel::ALERT) {
