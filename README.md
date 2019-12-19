@@ -5,6 +5,10 @@ easier to work with PHP. It implements some features which are missing
 from PHP but which are commonly required, for instance array and path
 manipulation.
 
+[![Latest Stable Version](https://img.shields.io/packagist/v/aplia/support.svg?style=flat-square)](https://packagist.org/packages/aplia/support)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.3-8892BF.svg?style=flat-square)](https://php.net/)
+
+
 All classes are placed under the namespace `Aplia\Support`, for instance:
 
 ```php
