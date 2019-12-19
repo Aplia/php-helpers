@@ -193,6 +193,16 @@ class Arr
     /**
      * Get an item from an array using "dot" notation.
      *
+     * ```php
+     * use Aplia\Support\Arr;
+     * 
+     * $array = ['products' => ['desk' => ['price' => 100]]];
+     * 
+     * $price = Arr::get($array, 'products.desk.price');
+     * 
+     * // 100
+     * ```
+     * 
      * @param  array   $array
      * @param  string  $key
      * @param  mixed   $default

@@ -1,12 +1,12 @@
 {
     "name": "aplia/support",
     "description": "Support library for PHP adding missing features",
-    "homepage": "https://bitbucket.org/aplia/support",
+    "homepage": "https://github.com/Aplia/PhpSupport",
     "license": "MIT",
     "authors": [
         {
             "name": "Aplia dev-team",
-            "homepage": "https://bitbucket.org/aplia"
+            "homepage": "https://github.com/Aplia"
         }
     ],
     "require": {

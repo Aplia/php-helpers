@@ -4,12 +4,13 @@ namespace Aplia\Support;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
+/**
+ * A logger handler which sends all logs to eZDebug.
+ * 
+ * It will only pass logs if it finds the class `eZDebug`.
+ */
 class LoggerAdapter implements LoggerInterface
 {
-    public function __construct()
-    {
-    }
-
     public static function interpolate($message, array $context = array())
     {
         if (strpos($message, '{') === false) {
