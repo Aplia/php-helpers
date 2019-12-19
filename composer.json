@@ -1,6 +1,6 @@
 {
     "name": "aplia/support",
-    "description": "Support library for PHP adding missing features",
+    "description": "Extra support classes and functions for making it easier to work with PHP",
     "homepage": "https://github.com/Aplia/PhpSupport",
     "license": "MIT",
     "authors": [
