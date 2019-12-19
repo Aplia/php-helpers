@@ -42,6 +42,21 @@ $price = Arr::get($array, 'products.desk.price');
 // 100
 ```
 
+A typical use case is to support keyword arguments to a function
+by passing an array as a parameter. `Arr::get` can then be used
+to easily fetch a parameter if it is set or use a default value.
+
+```php
+use Aplia\Support\Arr;
+
+function search($query, $params=null)
+{
+    $limit = Arr::get($params, 'limit');
+    $fields = Arr::get($params, 'fields', 1);
+    // ...
+}
+```
+
 ## Path
 
 Path manipulation such as joining multiple files/dir names into one
