@@ -13,6 +13,13 @@ use Aplia\Support\Arr;
 Arr::get($array, 'key');
 ```
 
+## Installation
+Install with Composer:
+
+```
+composer require aplia/support
+```
+
 ## Arr
 
 Various functionality for working with arrays. These are mostly taken
