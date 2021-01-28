@@ -33,7 +33,7 @@ class Arr
      */
     public static function build($array, $callback)
     {
-        $results = array();
+        $results = [];
 
         foreach ($array as $key => $value) {
             list($innerKey, $innerValue) = call_user_func($callback, $key, $value);
@@ -52,7 +52,7 @@ class Arr
      */
     public static function collapse($array)
     {
-        $results = array();
+        $results = [];
 
         foreach ($array as $values) {
             if ($values instanceof Collection) {
@@ -73,7 +73,7 @@ class Arr
      */
     public static function divide($array)
     {
-        return array(array_keys($array), array_values($array));
+        return [array_keys($array), array_values($array)];
     }
 
     /**
@@ -85,13 +85,13 @@ class Arr
      */
     public static function dot($array, $prepend = '')
     {
-        $results = array();
+        $results = [];
 
         foreach ($array as $key => $value) {
             if (is_array($value)) {
-                $results = array_merge($results, static::dot($value, $prepend.$key.'.'));
+                $results = array_merge($results, static::dot($value, $prepend . $key . '.'));
             } else {
-                $results[$prepend.$key] = $value;
+                $results[$prepend . $key] = $value;
             }
         }
 
@@ -152,9 +152,11 @@ class Arr
      */
     public static function flatten($array)
     {
-        $return = array();
+        $return = [];
 
-        array_walk_recursive($array, function ($x) use (&$return) { $return[] = $x; });
+        array_walk_recursive($array, function ($x) use (&$return) {
+            $return[] = $x;
+        });
 
         return $return;
     }
@@ -179,7 +181,7 @@ class Arr
                 if (isset($array[$part]) && is_array($array[$part])) {
                     $array = &$array[$part];
                 } else {
-                    $parts = array();
+                    $parts = [];
                 }
             }
 
@@ -195,14 +197,14 @@ class Arr
      *
      * ```php
      * use Aplia\Support\Arr;
-     * 
+     *
      * $array = ['products' => ['desk' => ['price' => 100]]];
-     * 
+     *
      * $price = Arr::get($array, 'products.desk.price');
-     * 
+     *
      * // 100
      * ```
-     * 
+     *
      * @param  array   $array
      * @param  string  $key
      * @param  mixed   $default
@@ -219,7 +221,7 @@ class Arr
         }
 
         foreach (explode('.', $key) as $segment) {
-            if (! is_array($array) || ! array_key_exists($segment, $array)) {
+            if (!is_array($array) || !array_key_exists($segment, $array)) {
                 return Val::value($default);
             }
 
@@ -247,7 +249,7 @@ class Arr
         }
 
         foreach (explode('.', $key) as $segment) {
-            if (! is_array($array) || ! array_key_exists($segment, $array)) {
+            if (!is_array($array) || !array_key_exists($segment, $array)) {
                 return false;
             }
 
@@ -294,7 +296,7 @@ class Arr
      */
     public static function pluck($array, $value, $key = null)
     {
-        $results = array();
+        $results = [];
 
         list($value, $key) = static::explodePluckParameters($value, $key);
 
@@ -329,7 +331,7 @@ class Arr
 
         $key = is_null($key) || is_array($key) ? $key : explode('.', $key);
 
-        return array($value, $key);
+        return [$value, $key];
     }
 
     /**
@@ -373,8 +375,8 @@ class Arr
             // If the key doesn't exist at this depth, we will just create an empty array
             // to hold the next value, allowing us to create the arrays to hold final
             // values at the correct depth. Then we'll keep digging into the array.
-            if (! isset($array[$key]) || ! is_array($array[$key])) {
-                $array[$key] = array();
+            if (!isset($array[$key]) || !is_array($array[$key])) {
+                $array[$key] = [];
             }
 
             $array = &$array[$key];
@@ -394,7 +396,9 @@ class Arr
      */
     public static function sort($array, $callback)
     {
-        return Collection::make($array)->sortBy($callback)->all();
+        return Collection::make($array)
+            ->sortBy($callback)
+            ->all();
     }
 
     /**
@@ -429,7 +433,7 @@ class Arr
      */
     public static function where($array, $callback)
     {
-        $filtered = array();
+        $filtered = [];
 
         foreach ($array as $key => $value) {
             if (call_user_func($callback, $key, $value)) {

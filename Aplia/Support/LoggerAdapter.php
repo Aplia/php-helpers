@@ -6,21 +6,21 @@ use Psr\Log\LogLevel;
 
 /**
  * A logger handler which sends all logs to eZDebug.
- * 
+ *
  * It will only pass logs if it finds the class `eZDebug`.
  */
 class LoggerAdapter implements LoggerInterface
 {
-    public static function interpolate($message, array $context = array())
+    public static function interpolate($message, array $context = [])
     {
         if (strpos($message, '{') === false) {
             foreach ($context as $key => $val) {
-                $message .= "\n" . $key . "=" . $val;
+                $message .= "\n" . $key . '=' . $val;
             }
             return $message;
         }
         // build a replacement array with braces around the context keys
-        $replace = array();
+        $replace = [];
         foreach ($context as $key => $val) {
             $replace['{' . $key . '}'] = $val;
         }
@@ -32,7 +32,7 @@ class LoggerAdapter implements LoggerInterface
     /**
      * System is unusable.
      */
-    public function emergency($message, array $context = array())
+    public function emergency($message, array $context = [])
     {
         if (!class_exists('eZDebug')) {
             return;
@@ -44,7 +44,7 @@ class LoggerAdapter implements LoggerInterface
      * Action must be taken immediately.
      * @return null
      */
-    public function alert($message, array $context = array())
+    public function alert($message, array $context = [])
     {
         if (!class_exists('eZDebug')) {
             return;
@@ -56,7 +56,7 @@ class LoggerAdapter implements LoggerInterface
      * Critical conditions.
      * @return null
      */
-    public function critical($message, array $context = array())
+    public function critical($message, array $context = [])
     {
         if (!class_exists('eZDebug')) {
             return;
@@ -68,7 +68,7 @@ class LoggerAdapter implements LoggerInterface
      * Runtime errors that do not require immediate action but should typically
      * be logged and monitored.
      */
-    public function error($message, array $context = array())
+    public function error($message, array $context = [])
     {
         if (!class_exists('eZDebug')) {
             return;
@@ -80,7 +80,7 @@ class LoggerAdapter implements LoggerInterface
      * Exceptional occurrences that are not errors.
      * @return null
      */
-    public function warning($message, array $context = array())
+    public function warning($message, array $context = [])
     {
         if (!class_exists('eZDebug')) {
             return;
@@ -91,7 +91,7 @@ class LoggerAdapter implements LoggerInterface
     /**
      * Normal but significant events.
      */
-    public function notice($message, array $context = array())
+    public function notice($message, array $context = [])
     {
         if (!class_exists('eZDebug')) {
             return;
@@ -102,7 +102,7 @@ class LoggerAdapter implements LoggerInterface
     /**
      * Interesting events.
      */
-    public function info($message, array $context = array())
+    public function info($message, array $context = [])
     {
         if (!class_exists('eZDebug')) {
             return;
@@ -113,7 +113,7 @@ class LoggerAdapter implements LoggerInterface
     /**
      * Detailed debug information.
      */
-    public function debug($message, array $context = array())
+    public function debug($message, array $context = [])
     {
         if (!class_exists('eZDebug')) {
             return;
@@ -124,7 +124,7 @@ class LoggerAdapter implements LoggerInterface
     /**
      * Logs with an arbitrary level.
      */
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = [])
     {
         if (!class_exists('eZDebug')) {
             return;
