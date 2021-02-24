@@ -117,6 +117,7 @@ trait VirtualProperties
      * @var array
      */
     protected static $BaseModelAttributes = null;
+
     /**
      * Cache storage for cached properties, one entry per property.
      *
@@ -128,6 +129,16 @@ trait VirtualProperties
     protected $BaseModelCacheStorage = [];
 
     /**
+     * Whether __get should be strict and require that properties exist, or false to be lax.
+     *
+     * @var bool
+     */
+    protected function __requireProperties()
+    {
+        return true;
+    }
+
+    /**
      * Look up virtual properties on the object and returns true if it exists, false otherwise.
      *
      * @param string $name Name of property
@@ -136,7 +147,9 @@ trait VirtualProperties
     public function __isset($name)
     {
         $propName = ucfirst($name);
-        return method_exists($this, 'prop' . $propName) || method_exists($this, 'cached' . $propName);
+        return (is_callable('parent::__isset') ? parent::__isset($name) : false) ||
+            method_exists($this, 'prop' . $propName) ||
+            method_exists($this, 'cached' . $propName);
     }
 
     /**
@@ -160,7 +173,18 @@ trait VirtualProperties
         if (method_exists($this, $func)) {
             return $this->BaseModelCacheStorage[$name] = $this->$func();
         }
-        throw new PropertyError('No such property: ' . $name);
+        if (is_callable('parent::__get')) {
+            if (is_callable('parent::__isset')) {
+                if (parent::__isset($name)) {
+                    return parent::__get($name);
+                }
+            } else {
+                return parent::__get($name);
+            }
+        }
+        if ($this->__requireProperties()) {
+            throw new PropertyError('No such property: ' . $name);
+        }
     }
 
     /**
@@ -181,6 +205,10 @@ trait VirtualProperties
         $func = 'setprop' . $propName;
         if (method_exists($this, $func)) {
             return $this->$func($v);
+        }
+        if (is_callable('parent::__set')) {
+            parent::__set($name, $v);
+            return;
         }
         if (isset($this->$name)) {
             throw new PropertyReadOnly('Read-only property, cannot set: ' . $name);
@@ -213,6 +241,10 @@ trait VirtualProperties
             unset($this->BaseModelCacheStorage[$name]);
             return;
         }
+        if (is_callable('parent::__unset')) {
+            parent::__unset($name);
+            return;
+        }
         // Ignore all other properties
     }
 
@@ -230,6 +262,12 @@ trait VirtualProperties
         if (self::$BaseModelAttributes === null || !isset(self::$BaseModelAttributes[$cname])) {
             // Note: Uses external helper to ensure only public vars are found
             $attrs = array_keys(PropertyHelper::getPublicProperties($this));
+            if (method_exists($this, '__baseProperties')) {
+                $attrs = array_merge($attrs, $this->__baseProperties());
+            }
+            if (is_callable('parent::__properties')) {
+                $attrs = array_merge($attrs, parent::__properties());
+            }
             foreach (get_class_methods($this) as $name) {
                 if (substr($name, 0, 4) === 'prop') {
                     $attrs[] = strtolower($name[4]) . substr($name, 5);
